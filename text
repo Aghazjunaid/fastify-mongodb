@@ -1,0 +1,20 @@
+npm init
+npm i fastify mongoose
+
+created index.js file
+created a server using fastify 
+connected mongodb in index.js
+
+Folder Structure :-
+Controllers
+    -movie.js
+Models
+    -movie.js
+Routes
+    -movie.js
+index.js
+
+Created Mongodb Schema in Models/movie.js
+Made All API Routes in Routes/movie.js and then imported that route in index.js.
+In Controller/movies.js Insert and Search logic is written
+

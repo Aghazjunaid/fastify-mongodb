@@ -2,7 +2,6 @@ const Movie = require('../Models/movie');
 
 module.exports = {
     insert: async (req,res) => {
-        const return_response = { "status": null, "message": null, "data": {} } 
         try {
             let movieData = req.body;
             const movie = new Movie({
@@ -15,13 +14,52 @@ module.exports = {
             });
 
             let data = await movie.save()
-            return_response.status = 200;
-            return_response.message = "Movie Added Successfully";
-            return_response.data = data;
+            return res.status(400).send({
+                message: "Movie Added Successfully",
+                data: data
+            });
         } catch (error) {
-            return_response.status = 400;
-            return_response.message = String(error);
+            console.error(error);
+            return res.status(400).send({
+                message: String(error),
+            });
         }
-        res.send(return_response);
+    },
+    search: async (req,res) => {
+        const searchQuery = req.query;
+        try {
+            let con = {
+            }
+            if (searchQuery) {
+                con['$or'] = [
+                    {
+                        'name': new RegExp(searchQuery.search, 'i')
+                    },
+                    {
+                        'description': new RegExp(searchQuery.search, 'i')
+                    },
+                    {
+                        'type': new RegExp(searchQuery.search, 'i')
+                    },
+                ]
+            }
+    
+            const doc = await Movie.find(
+                con,{}
+            )
+            const totalCount =  await Movie.countDocuments(con);
+
+            return res.status(400).send({
+                message: "Success",
+                totalCount,
+                data: doc
+            });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({
+                message: String(error),
+            });
+        }
+
     }
 }
