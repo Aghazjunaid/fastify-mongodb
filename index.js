@@ -1,13 +1,8 @@
 // Require the framework and instantiate it
-const fastify = require('fastify')({ logger: true })
+const fastify = require('fastify')
+const app = fastify()
 const mongoose = require('mongoose');
-
-// Declare a route
-fastify.get('/', async (req, res) => {
-  return res.send({
-      "message": "Hello"
-  })
-})
+const movieRoute = require('./Routes/movie')
 
 const mongoUrl = 'mongodb://127.0.0.1/movie'
 mongoose.connect(mongoUrl, {
@@ -15,12 +10,15 @@ mongoose.connect(mongoUrl, {
   useUnifiedTopology: true
 });
 
+movieRoute(app);
+
 // Run the server!
 const start = async () => {
   try {
-    await fastify.listen(5200)
+    await app.listen(5200)
+    console.log("Server is running at 5200 port")
   } catch (err) {
-    fastify.log.error(err)
+    console.log(err)
     process.exit(1)
   }
 }
