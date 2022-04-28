@@ -1,5 +1,6 @@
 // Require the framework and instantiate it
 const fastify = require('fastify')({ logger: true })
+const mongoose = require('mongoose');
 
 // Declare a route
 fastify.get('/', async (req, res) => {
@@ -8,6 +9,11 @@ fastify.get('/', async (req, res) => {
   })
 })
 
+const mongoUrl = 'mongodb://127.0.0.1/movie'
+mongoose.connect(mongoUrl, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
 
 // Run the server!
 const start = async () => {
