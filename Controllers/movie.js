@@ -3,7 +3,7 @@ const Movie = require('../Models/movie');
 module.exports = {
     insert: async (req,res) => {
         try {
-            let movieData = req.body;
+            const movieData = req.body;
             const movie = new Movie({
                 name: movieData.name,
                 description: movieData.description,
@@ -13,10 +13,10 @@ module.exports = {
                 budget: movieData.budget
             });
 
-            let data = await movie.save()
-            return res.status(400).send({
+            const data = await movie.save()
+            return res.status(201).send({  //201 for data insertion
                 message: "Movie Added Successfully",
-                data: data
+                data
             });
         } catch (error) {
             console.error(error);
@@ -45,11 +45,11 @@ module.exports = {
             }
     
             const doc = await Movie.find(
-                con,{}
+                con,{},
             )
             const totalCount =  await Movie.countDocuments(con);
 
-            return res.status(400).send({
+            return res.status(200).send({
                 message: "Success",
                 totalCount,
                 data: doc
@@ -63,3 +63,24 @@ module.exports = {
 
     }
 }
+
+// // Success
+// const searchResponse = {
+//     data: {
+//       totalRecords: 10,
+//       results: [{}],
+//     },
+//     meta: {
+//       message: "Your messsage",
+//       code: 200,
+//     },
+//   };
+  
+//   // Failed
+//   const searchFailedResponse = {
+//     data: {},
+//     meta: {
+//       message: "Please provide page number",
+//       code: 400,
+//     },
+//   };
