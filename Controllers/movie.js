@@ -27,35 +27,43 @@ module.exports = {
         }
     },
     search: async (req,res) => {
-        const searchQuery = req.query;
+        const {search, page, perPage} = req.query;
         try {
+
+            const startIndex = ((page - 1) * perPage);
+            const skipCondition = {
+                skip: startIndex,
+                limit: parseInt(perPage),
+                sort: {'createdAt':-1}
+            };
+
             let con = {
             }
-            if (searchQuery) {
+            if (search) {
                 con['$or'] = [
                     {
-                        'title': new RegExp(searchQuery.search, 'i')
+                        'title': new RegExp(search, 'i')
                     },
                     {
-                        'description': new RegExp(searchQuery.search, 'i')
+                        'description': new RegExp(search, 'i')
                     },
                     {
-                        'duration': new RegExp(searchQuery.search, 'i')
+                        'duration': new RegExp(search, 'i')
                     },
                     {
-                        'category': new RegExp(searchQuery.search, 'i')
+                        'category': new RegExp(search, 'i')
                     },
                     {
-                        'year': new RegExp(searchQuery.search, 'i')
+                        'year': new RegExp(search, 'i')
                     },
                     {
-                        'rating': new RegExp(searchQuery.search, 'i')
+                        'rating': new RegExp(search, 'i')
                     },
                 ]
             }
     
             const doc = await Movie.find(
-                con,{},
+                con,{},skipCondition
             )
             const totalCount =  await Movie.countDocuments(con);
 
