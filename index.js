@@ -18,7 +18,7 @@ app.get("/",(req,res) => {
 // Run the server!
 const start = async () => {
   try {
-    await app.listen(process.env.PORT)
+    await app.listen(process.env.PORT || 5200)
     console.log("Server is running at 5200 port")
   } catch (err) {
     console.log(err)
