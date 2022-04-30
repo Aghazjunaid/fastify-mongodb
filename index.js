@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const movieRoute = require('./Routes/movie')
 require('dotenv').config()
 
-mongoose.connect(process.env.MONGO_URL, {
+mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost/aghaz-movie-app', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
