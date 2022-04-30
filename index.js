@@ -12,10 +12,13 @@ mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost/aghaz-movie-app',
 
 movieRoute(app);
 
+app.get("/",(req,res) => {
+  res.send("Hello AJ")
+})
 // Run the server!
 const start = async () => {
   try {
-    await app.listen(5200)
+    await app.listen(process.env.PORT)
     console.log("Server is running at 5200 port")
   } catch (err) {
     console.log(err)
