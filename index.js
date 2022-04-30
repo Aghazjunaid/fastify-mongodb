@@ -3,9 +3,9 @@ const fastify = require('fastify')
 const app = fastify()
 const mongoose = require('mongoose');
 const movieRoute = require('./Routes/movie')
+require('dotenv').config()
 
-const mongoUrl = 'mongodb://127.0.0.1/movie'
-mongoose.connect(mongoUrl, {
+mongoose.connect(process.env.MONGO_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });

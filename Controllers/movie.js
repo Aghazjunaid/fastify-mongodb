@@ -62,14 +62,22 @@ module.exports = {
                 ]
             }
     
-            const doc = await Movie.find(
-                con,{},skipCondition
-            )
-            const totalCount =  await Movie.countDocuments(con);
+            // const doc = await Movie.find(
+            //     con,{},skipCondition
+            // )
+            // const totalCount =  await Movie.countDocuments(con);
+
+            let doc = await Movie.aggregate([
+                { '$match'    : con},
+                { '$sort'     : { 'createdAt': -1 } },
+                { '$facet'    : {
+                    metadata: [ { $count: "total" } ],
+                    data: [ { $skip: startIndex }, { $limit: parseInt(perPage) } ] // add projection here wish you re-shape the docs
+                } }
+            ] )
 
             return res.status(200).send({
                 message: "Success",
-                totalCount,
                 data: doc
             });
         } catch (error) {
