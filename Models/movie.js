@@ -2,12 +2,13 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const MovieSchema = new Schema({
-    name: {type:String},
+    title: {type:String},
     description: {type:String},
-    duration: {type:Number},
-    type: {type:String},
-    releasedDate: {type:Date},
-    budget: {type:Number}
+    duration: {type:String},
+    category: {type:String},
+    year: {type:String},
+    budget: {type:Number},
+    rating: {type:String}
 },{    
     timestamps: true,
 });

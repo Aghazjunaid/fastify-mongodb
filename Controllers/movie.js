@@ -5,12 +5,13 @@ module.exports = {
         try {
             const movieData = req.body;
             const movie = new Movie({
-                name: movieData.name,
+                title: movieData.title,
                 description: movieData.description,
                 duration: movieData.duration,
-                type: movieData.type,
-                releasedDate: movieData.releasedDate,
-                budget: movieData.budget
+                category: movieData.category,
+                year: movieData.year,
+                budget: movieData.budget,
+                rating: movieData.rating
             });
 
             const data = await movie.save()
@@ -33,13 +34,22 @@ module.exports = {
             if (searchQuery) {
                 con['$or'] = [
                     {
-                        'name': new RegExp(searchQuery.search, 'i')
+                        'title': new RegExp(searchQuery.search, 'i')
                     },
                     {
                         'description': new RegExp(searchQuery.search, 'i')
                     },
                     {
-                        'type': new RegExp(searchQuery.search, 'i')
+                        'duration': new RegExp(searchQuery.search, 'i')
+                    },
+                    {
+                        'category': new RegExp(searchQuery.search, 'i')
+                    },
+                    {
+                        'year': new RegExp(searchQuery.search, 'i')
+                    },
+                    {
+                        'rating': new RegExp(searchQuery.search, 'i')
                     },
                 ]
             }
