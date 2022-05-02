@@ -86,7 +86,27 @@ module.exports = {
                 message: String(error),
             });
         }
+    },
+    getById : async (req,res) => {
+        try {
+            let data = await Movie.findOne({_id:req.params.id})
 
+            if(data){
+                return res.status(200).send({  //201 for data insertion
+                    message: "Sucess",
+                    data
+                });
+            }
+            return res.status(400).send({
+                message: "Invalid Id",
+                data : {}
+            })
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({
+                message: String(error),
+            });
+        }
     }
 }
 
