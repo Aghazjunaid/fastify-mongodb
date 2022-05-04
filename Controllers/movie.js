@@ -74,7 +74,7 @@ module.exports = {
                     metadata: [ { $count: "total" } ],
                     data: [ { $skip: startIndex }, { $limit: parseInt(perPage) } ] // add projection here wish you re-shape the docs
                 } }
-            ] )
+            ])
 
             return res.status(200).send({
                 message: "Success",
@@ -101,6 +101,21 @@ module.exports = {
                 message: "Invalid Id",
                 data : {}
             })
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({
+                message: String(error),
+            });
+        }
+    },
+    deleteById: async (req,res) => {
+        try {
+            let data = await Movie.findByIdAndRemove({_id:req.params.id})
+
+            return res.status(200).send({  //201 for data insertion
+                message: "Sucess",
+                data
+            });
         } catch (error) {
             console.error(error);
             return res.status(400).send({
